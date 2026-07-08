@@ -16,6 +16,7 @@
                                 <th class="py-2">Kursus</th>
                                 <th class="py-2">Total</th>
                                 <th class="py-2">Status</th>
+                                <th class="py-2"></th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
@@ -32,6 +33,18 @@
                                             @else bg-yellow-100 text-yellow-700 @endif">
                                             {{ $status }}
                                         </span>
+                                    </td>
+                                    <td class="py-3 text-right">
+                                        {{-- Invoice hanya ada setelah order di-checkout/lunas --}}
+                                        @php($invoiceId = $invoiceIds[(string) $order->id()] ?? null)
+                                        @if ($invoiceId)
+                                            <a href="{{ route('payment.show', ['invoice' => $invoiceId]) }}"
+                                               class="text-indigo-600 hover:text-indigo-500 font-medium">
+                                                Lihat Invoice
+                                            </a>
+                                        @else
+                                            <span class="text-gray-400">-</span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

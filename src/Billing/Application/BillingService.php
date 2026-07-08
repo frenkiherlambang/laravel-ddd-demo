@@ -78,6 +78,27 @@ final readonly class BillingService
     }
 
     /**
+     * Query (read-side): peta orderId => invoiceId untuk sekumpulan order.
+     *
+     * Dipakai halaman "Pesanan Saya" untuk menautkan tiap order ke invoice-nya
+     * tanpa membocorkan detail read model Billing ke context Ordering.
+     *
+     * @param  array<int, string>  $orderIds
+     * @return array<string, string>
+     */
+    public function invoiceIdsByOrderIds(array $orderIds): array
+    {
+        if ($orderIds === []) {
+            return [];
+        }
+
+        return InvoiceProjection::query()
+            ->whereIn('order_id', $orderIds)
+            ->pluck('id', 'order_id')
+            ->all();
+    }
+
+    /**
      * Use case: "Check Pelunasan" — polling status ke DOKU via ACL, lalu
      * merekam hasilnya. Bila lunas, aggregate merekam InvoicePaid yang akan
      * memicu Reactor (tandai order lunas + beri akses kursus).

@@ -101,8 +101,19 @@ final class CheckoutController extends Controller
      */
     public function myOrders(): View
     {
+        $orders = $this->orders->forStudent((int) auth()->id());
+
+        // Petakan tiap order ke invoice-nya (read-side Billing) agar tersedia
+        // tautan "Lihat Invoice" untuk order yang sudah checkout/lunas.
+        $orderIds = array_map(
+            static fn ($order): string => (string) $order->id(),
+            $orders,
+        );
+        $invoiceIds = $this->billing->invoiceIdsByOrderIds($orderIds);
+
         return view('orders.index', [
-            'orders' => $this->orders->forStudent((int) auth()->id()),
+            'orders' => $orders,
+            'invoiceIds' => $invoiceIds,
         ]);
     }
 }
