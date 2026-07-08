@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Src\Billing\Presentation\Controllers\EventStoreController;
 use Src\Billing\Presentation\Controllers\PaymentController;
 use Src\Catalog\Presentation\Controllers\AdminCourseController;
 use Src\Catalog\Presentation\Controllers\CatalogController;
@@ -45,6 +46,9 @@ Route::middleware(['auth', 'role:admin'])
         Route::post('courses', [AdminCourseController::class, 'store'])->name('courses.store');
         Route::get('courses/{course}/edit', [AdminCourseController::class, 'edit'])->name('courses.edit');
         Route::put('courses/{course}', [AdminCourseController::class, 'update'])->name('courses.update');
+
+        // Event Store — audit trail fakta domain (write-side Event Sourcing).
+        Route::get('events', [EventStoreController::class, 'index'])->name('events.index');
     });
 
 /*

@@ -21,6 +21,9 @@
                         <x-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.*')">
                             {{ __('Kelola Kursus') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.events.index')" :active="request()->routeIs('admin.events.*')">
+                            {{ __('Event Store') }}
+                        </x-nav-link>
                     @endif
 
                     {{-- Menu khusus MAHASISWA --}}
@@ -94,6 +97,9 @@
             @if (Auth::user()->isAdmin())
                 <x-responsive-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.*')">
                     {{ __('Kelola Kursus') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.events.index')" :active="request()->routeIs('admin.events.*')">
+                    {{ __('Event Store') }}
                 </x-responsive-nav-link>
             @endif
 
